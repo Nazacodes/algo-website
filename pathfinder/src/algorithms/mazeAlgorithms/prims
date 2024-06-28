@@ -1,0 +1,66 @@
+function randomizedPrimsMaze(grid, startRow, startCol) {
+  const numRows = grid.length;
+  const numCols = grid[0].length;
+  
+  // Initialize walls
+  for (let row = 0; row < numRows; row++) {
+    for (let col = 0; col < numCols; col++) {
+      grid[row][col].isWall = true;
+    }
+  }
+  
+  // Start with the given start cell
+  const walls = [{ row: startRow, col: startCol }];
+  grid[startRow][startCol].isWall = false;
+  
+  while (walls.length > 0) {
+    const randomIndex = Math.floor(Math.random() * walls.length);
+    const { row, col } = walls[randomIndex];
+    walls.splice(randomIndex, 1);
+    
+    // Get neighbors
+    const neighbors = [];
+    if (row >= 2 && grid[row - 2][col].isWall) {
+      neighbors.push({ row: row - 2, col });
+    }
+    if (row < numRows - 2 && grid[row + 2][col].isWall) {
+      neighbors.push({ row: row + 2, col });
+    }
+    if (col >= 2 && grid[row][col - 2].isWall) {
+      neighbors.push({ row, col: col - 2 });
+    }
+    if (col < numCols - 2 && grid[row][col + 2].isWall) {
+      neighbors.push({ row, col: col + 2 });
+    }
+    
+    if (neighbors.length > 0) {
+      const randomNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+      const { nrow, ncol } = randomNeighbor;
+      grid[nrow][ncol].isWall = false;
+      grid[row + (nrow - row) / 2][col + (ncol - col) / 2].isWall = false;
+      walls.push(randomNeighbor);
+    }
+  }
+}
+
+// Usage example:
+const numRows = 20;
+const numCols = 50;
+const startRow = 1; // Example starting point
+const startCol = 1; // Example starting point
+const grid = [];
+
+// Initialize grid with all walls
+for (let row = 0; row < numRows; row++) {
+  const currentRow = [];
+  for (let col = 0; col < numCols; col++) {
+    currentRow.push({ row, col, isWall: true });
+  }
+  grid.push(currentRow);
+}
+
+// Apply randomized Prim's algorithm to create maze
+randomizedPrimsMaze(grid, startRow, startCol);
+
+// Now 'grid' contains the maze structure where 'isWall: false' represents passages
+console.log(grid);

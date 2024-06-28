@@ -1,0 +1,63 @@
+function recursiveDivisionMaze(grid, startRow, endRow, startCol, endCol) {
+  if (endRow < startRow || endCol < startCol) return;
+
+  // Determine orientation (horizontal or vertical)
+  const isHorizontal = Math.random() < 0.5;
+
+  // If the chosen direction is horizontal
+  if (isHorizontal) {
+    const possibleRows = [];
+    for (let row = startRow + 1; row < endRow; row += 2) {
+      possibleRows.push(row);
+    }
+
+    const divideRow = possibleRows[Math.floor(Math.random() * possibleRows.length)];
+
+    for (let col = startCol; col <= endCol; col++) {
+      if (grid[divideRow][col].isWall) {
+        grid[divideRow][col].isWall = false;
+      }
+    }
+
+    // Recursively divide the sections
+    recursiveDivisionMaze(grid, startRow, divideRow - 1, startCol, endCol);
+    recursiveDivisionMaze(grid, divideRow + 1, endRow, startCol, endCol);
+  } else { // If the chosen direction is vertical
+    const possibleCols = [];
+    for (let col = startCol + 1; col < endCol; col += 2) {
+      possibleCols.push(col);
+    }
+
+    const divideCol = possibleCols[Math.floor(Math.random() * possibleCols.length)];
+
+    for (let row = startRow; row <= endRow; row++) {
+      if (grid[row][divideCol].isWall) {
+        grid[row][divideCol].isWall = false;
+      }
+    }
+
+    // Recursively divide the sections
+    recursiveDivisionMaze(grid, startRow, endRow, startCol, divideCol - 1);
+    recursiveDivisionMaze(grid, startRow, endRow, divideCol + 1, endCol);
+  }
+}
+
+// Usage example:
+const numRows = 20;
+const numCols = 50;
+const grid = [];
+
+// Initialize grid with all walls
+for (let row = 0; row < numRows; row++) {
+  const currentRow = [];
+  for (let col = 0; col < numCols; col++) {
+    currentRow.push({ row, col, isWall: true });
+  }
+  grid.push(currentRow);
+}
+
+// Apply recursive division algorithm to create maze
+recursiveDivisionMaze(grid, 0, numRows - 1, 0, numCols - 1);
+
+// Now 'grid' contains the maze structure where 'isWall: false' represents passages
+console.log(grid);

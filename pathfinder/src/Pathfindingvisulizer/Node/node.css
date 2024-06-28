@@ -1,0 +1,76 @@
+.node {
+  width: 25px;
+  height: 25px;
+  outline: 1px solid rgb(175, 216, 248);
+  display: inline-block;
+  background-color: white; /* Reset background color */
+  animation: none; /* Reset any animation */
+}
+
+.node-finish {
+  background-color: #ff69b4; /* HotPink for finish node */
+}
+
+.node-start {
+  background-color: #8a2be2; /* BlueViolet for start node */
+}
+
+.node-visited {
+  animation-name: visitedAnimation;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+@keyframes visitedAnimation {
+  0% {
+    transform: scale(0.3);
+    background-color: rgba(102, 0, 153, 0.75); /* Purple */
+    border-radius: 100%;
+  }
+  50% {
+    background-color: rgba(255, 105, 180, 0.75); /* Pink */
+  }
+  75% {
+    transform: scale(1.2);
+    background-color: rgba(255, 192, 203, 0.75); /* LightPink */
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgba(218, 112, 214, 0.75); /* Orchid */
+  }
+}
+
+.node-wall {
+  background-color: #800080; /* Purple for walls */
+}
+
+.node-shortest-path {
+  animation-name: shortestPath;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+@keyframes shortestPath {
+  0% {
+    transform: scale(0.6);
+    background-color: #232fdd; /* MediumPurple */
+  }
+  50% {
+    transform: scale(1.2);
+    background-color: #061557; /* MediumPurple */
+  }
+  100% {
+    transform: scale(1);
+    background-color: #00153d; /* MediumPurple */
+  }
+}
